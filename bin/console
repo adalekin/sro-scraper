@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+define('PROJECT_ROOT', dirname(dirname(__FILE__)));
+
+require_once PROJECT_ROOT . '/vendor/autoload.php';
+
+use SroScraper\Command\UpdateCommand;
+use SroScraper\Command\SchemaCommand;
+use Symfony\Component\Console\Application;
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+/**
+ * Configure the database and boot Eloquent
+ */
+$capsule = new Capsule;
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => 'sro',
+    'username'  => 'root',
+    'password'  => 'root',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_general_ci'
+]);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+// set timezone for timestamps etc
+date_default_timezone_set('UTC');
+
+$application = new Application("SRO Scraper", "1.0");
+$application->add(new UpdateCommand());
+$application->add(new SchemaCommand());
+$application->run();

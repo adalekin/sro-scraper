@@ -1,0 +1,18 @@
+# PhpStorm project files
+.idea
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Mac DS_Store Files
+.DS_Store
+
+# Composer itself is not needed
+composer.phar
+
+# PhpUnit itself is not needed
+phpunit.phar
+phpunit.xml
+
+# Backend dependnencies
+vendor
