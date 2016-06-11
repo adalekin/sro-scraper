@@ -51,6 +51,7 @@ class SchemaCommand extends Command
             $table->text('head_html');
             $table->text('sro_activity_html');
             $table->text('sro_rules_html');
+            $table->text('edited_fields');
             $table->timestamps();
         });
     }

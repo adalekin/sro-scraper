@@ -84,13 +84,19 @@ class UpdateCommand extends Command
     private function _extractSROMember($client, $url)
     {
       $crawler = $client->request('GET', $url);
+      $currentItn = trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[5]/td[2]')->text());
 
-      $sro = new SRO;
+      $sro = SRO::where('itn', $currentItn)->first();
+
+      if (!$sro) {
+        $sro = new SRO;
+      }
+
       $sro->title = trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[1]/td[2]')->text());
       $sro->city = trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[2]/td[2]')->text());
       $sro->activity = trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[3]/td[2]')->text());
       $sro->short_title = trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[4]/td[2]')->text());
-      $sro->itn = trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[5]/td[2]')->text());
+      $sro->itn = $currentItn;
       $sro->psrn = trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[6]/td[2]')->text());
       $sro->sro_members_count = intval(trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[7]/td[2]')->text()));
       $sro->sro_members_excluded_count = intval(trim($crawler->filterXPath('//*[@id="tabs-1"]//table//tr[8]/td[2]')->text()));

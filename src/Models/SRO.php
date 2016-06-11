@@ -19,4 +19,15 @@ class SRO extends Eloquent {
    * @var bool
    */
   public $timestamps = true;
+
+  /**
+   * Sets a specified attribute if it wasn't changed by user.
+   */
+  public function setAttribute($property, $value) {
+    $editedFields = json_decode($this->edited_fields);
+
+    if (!$editedFields || !array_key_exists($property, $editedFields)) {
+      $this->attributes[$property] = $value;
+    }
+  }
 };
