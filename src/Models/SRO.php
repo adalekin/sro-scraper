@@ -3,6 +3,7 @@
 namespace SroScraper\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Cocur\Slugify\Slugify;
 
 
 class SRO extends Eloquent {
@@ -28,6 +29,15 @@ class SRO extends Eloquent {
 
     if (!$editedFields || !array_key_exists($property, $editedFields)) {
       $this->attributes[$property] = $value;
+    }
+
+    // FIXME:
+    if ($property == "short_title") {
+      $slugify = new Slugify();
+      $slugify->activateRuleset('russian');
+
+      $this->attributes[$property] = $value;
+      $this->attributes['alias'] = $slugify->slugify($value);
     }
   }
 };

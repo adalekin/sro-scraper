@@ -30,6 +30,7 @@ class SchemaCommand extends Command
         // Creating schema
         Capsule::schema()->create('sro', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('alias');
             $table->string('title');
             $table->string('city');
             $table->text('activity');
